@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 // Data needed for a later exercise
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
@@ -20,6 +20,7 @@ const openingHours = {
     close: 24,
   },
 };
+*/
 /*
 const restaurant = {
   name: 'Classico Italiano',
@@ -39,6 +40,101 @@ const restaurant = {
   },
 };
 
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct'],
+  [false, 'Try again!'],
+]);
+console.log(question);
+
+//Convert oject to map
+console.log(Object.entries(openingHours));
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);
+
+//Quiz app
+console.log(question.get('question'));
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+}
+//const answer = Number(prompt('Your answer'));
+const answer = 3;
+console.log(answer);
+
+console.log(question.get(question.get('correct') === answer));
+
+//Convert map to array
+console.log([...question]);
+console.log([question.entries()]);
+console.log([...question.keys()]);
+console.log([...question.values()]);
+*/
+/*
+//Maps fundamentals
+const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+rest.set(2, 'Lisbon', 'Portugal');
+
+console.log(rest);
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are open :D')
+  .set(false, 'We are closed :(');
+
+console.log(rest.get('name'));
+console.log(rest.get(true));
+
+const time = 21;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+console.log(rest.has('categories'));
+rest.delete(2);
+console.log(rest.size);
+rest.set([1, 2], 'Test');
+console.log(rest);
+rest.set(document.querySelector('h1'), 'Heading');
+*/
+
+/*
+//Sets
+const orderSet = new Set([
+  'Pasta',
+  'Pizza',
+  'Pizza',
+  'Risotto',
+  'Pasta',
+  'Pizza',
+]);
+
+console.log(orderSet);
+console.log(new Set('Jonas'));
+
+console.log(orderSet.size);
+console.log(orderSet.has('Pizza'));
+console.log(orderSet.has('Bread'));
+orderSet.add('Garlic Bread');
+orderSet.delete('Risotto');
+
+console.log(orderSet);
+
+for (const order of orderSet) console.log(order);
+
+//Example
+const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique);
+console.log(
+  new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+);
+*/
+/*
 const properties = Object.keys(openingHours);
 console.log(properties);
 
@@ -214,6 +310,11 @@ const guests1 = restourant.numGuests ? restourant.numGuests : 10;
 
 */
 // Challenge
+const odds = {
+  team1: 1.33,
+  x: 3.25,
+  team2: 6.5,
+};
 const game = {
   team1: 'Bayern Munich',
   team2: 'Borrussia Dortmund',
@@ -248,12 +349,9 @@ const game = {
   score: '4:0',
   scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
   date: 'Nov 9th, 2037',
-  odds: {
-    team1: 1.33,
-    x: 3.25,
-    team2: 6.5,
-  },
+  odds,
 };
+
 /*
 // 1
 //const players1 = game.players[0];
@@ -308,17 +406,36 @@ game.odds.team1 > game.odds.team2 &&
 game.odds.team1 < game.odds.team2 &&
   console.log('Team 1 is more likely to win');
 */
+/*
 //Challenge # 2
-
-const goals = game.scored.entries();
-console.log(goals);
-// for (const [goal, [item]] of goals) {
-//   console.log(`Goal ${goal}: ${item}`);
-// }
-
-//const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
-//for (const item of menu) console.log(item);
-
-for (const item of menu.entries()) {
-  console.log(item);
+//1
+const goals = game.scored;
+for (const [goal, name] of goals.entries()) {
+  console.log(`Goal ${goal + 1}: ${name}`);
 }
+//Jonas solution
+for (const [i, player] of game.scored.entries()) {
+  console.log(`goal ${i + 1}: ${player}`);
+}
+//2
+let sum = 0;
+const avrOdds = Object.values(game.odds);
+for (const i of avrOdds) sum += i;
+console.log(sum / avrOdds.length);
+//Jonas solution
+let average = 0;
+for (const odd of Object.values(game.odds)) average += odd;
+average /= Object.values(game.odds).length;
+console.log(average);
+//3
+console.log(`Odd of victory ${game.team1}: ${avrOdds[0]}`);
+//console.log(`Odd of victory ${game.team1}: ${odds.team1}`);
+console.log(`Odd of draw: ${avrOdds[1]}`);
+console.log(`Odd of victory ${game.team2}: ${avrOdds[2]}`);
+//console.log(`Odd of victory ${game.team2}: ${odds.team2}`);
+//Jonas solution
+for (const [team, odd] of Object.entries(game.odds)) {
+  const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+  console.log(`Odd of ${teamStr} ${odd}`);
+}
+*/
