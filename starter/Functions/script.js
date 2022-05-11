@@ -81,7 +81,7 @@ greeteHey('Steven');
 greet('Hello')('Jonas');
 
 const greetArr = greeting => name => console.log(`${greeting} ${name}`);
-*/
+
 
 const lufthansa = {
   airline: 'Lufthansa',
@@ -154,6 +154,7 @@ const addTaxRate = function (rate) {
 };
 
 const addVAT2 = addTaxRate(0.23);
+*/
 /*
 Let's build a simple poll app! 
 A poll has a question, an array of options from which people can choose, and an 
@@ -193,12 +194,164 @@ Test data for bonus:
 §  Data 2: [1, 5, 3, 9, 6, 1] 
 Hints: Use many of the tools you learned about in this and the last section ᾲ 
 */
+//My way
+/*
 const poll = {
   question: 'What is your favourite programming language?',
   options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
   // This generates [0, 0, 0, 0]. More in the next section!
   answers: new Array(4).fill(0),
-  function() {
-    prompt('');
+  registerNewAnswer: function () {
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    if (answer >= 0 && answer < this.options.length) {
+      for (let [key] of this.options) {
+        if (answer == key) this.answers[key]++;
+      }
+    } else console.log('Wrong answer. Try again!');
+    displayResults(this.answers);
   },
 };
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+const displayResults = function (type) {
+  if (Array.isArray(type)) console.log(type);
+  else if (typeof type === 'string') console.log(`Roll results are ${type}`);
+};
+const a = '13, 2, 4, 1';
+displayResults(a);
+displayResults(poll.answers);
+
+//5 Bonus
+const data1 = [5, 2, 3];
+const data2 = [1, 5, 3, 9, 6, 1];
+displayResults(data1);
+displayResults(data1.join());
+displayResults(data2);
+displayResults(data2.join());
+*/
+
+//Jonas way
+/*
+const poll = {
+  question: 'What is your favourite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  // This generates [0, 0, 0, 0]. More in the next section!
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const answer = Number(
+      prompt(
+        `${this.question}\n${this.options.join('\n')}\n(Write option number)`
+      )
+    );
+    console.log(answer);
+
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++;
+
+    this.displayResults();
+    this.displayResults('string');
+  },
+
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+poll.displayResults.call({ answers: [5, 2, 3] });
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string');
+*/
+
+const runOnce = function () {
+  console.log('This is never run again');
+};
+runOnce();
+(function () {
+  console.log('This is never run again');
+})();
+
+(() => console.log('This is ALSO never run again'))();
+
+//Closures
+const secureBooking = function () {
+  let passengerCount = 0;
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+booker();
+booker();
+booker();
+
+console.log(booker);
+// 2 example
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+console.dir(f);
+//Re-assingning f function
+h();
+f();
+console.dir(f);
+// 3 example
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait}`);
+};
+
+boardPassengers(180, 3);
+
+//Coding Challenge
+/*
+Coding Challenge #2 
+This is more of a thinking challenge than a coding challenge  
+Your tasks: 
+1.  Take the IIFE below and at the end of the function, attach an event listener that 
+changes the color of the selected h1 element ('header') to blue, each time 
+the body element is clicked. Do not select the h1 element again! 
+2.  And now explain to yourself (or someone around you) why this worked! Take all 
+the time you need. Think about when exactly the callback function is executed, 
+and what that means for the variables involved in this example. 
+*/
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+  document.querySelector('body').addEventListener('click', function () {
+    header.style.color = 'blue';
+  });
+})();
