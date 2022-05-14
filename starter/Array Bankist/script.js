@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
-/*
+
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
@@ -66,7 +66,7 @@ const displayMovements = function (movements) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
   <div class="movements__row">
-    <div class="movements__type movements__type--${type}">${i + 1}</div>
+    <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
     <div class="movements__value">${mov}</div>
   </div>
   `;
@@ -74,7 +74,23 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
-*/
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+const createUserNames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(word => word[0])
+      .join('');
+  });
+};
+createUserNames(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -169,8 +185,8 @@ Test data:
 §  Data 2: Julia's data [9, 16, 6, 8, 3], Kate's data [10, 5, 6, 1, 4] 
 */
 
-const dogsJulia = [3, 5, 2, 12, 7];
-const dogsKate = [4, 1, 15, 8, 3];
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
 // const dogsJulia = [9, 16, 6, 8, 3];
 // const dogsKate = [10, 5, 6, 1, 4];
 
@@ -188,6 +204,7 @@ const checkDogs = function (arr, arr2) {
 checkDogs(dogsJulia, dogsKate);
 */
 //Jonas way
+/*
 const checkDogs = function (dogsJulia, dogsKate) {
   const dogsJuliaCorrected = dogsJulia.slice();
   dogsJuliaCorrected.splice(0, 1);
@@ -203,3 +220,125 @@ const checkDogs = function (dogsJulia, dogsKate) {
   });
 };
 checkDogs(dogsJulia, dogsKate);
+*/
+/*
+Coding Challenge #2 
+Let's go back to Julia and Kate's study about dogs. This time, they want to convert 
+dog ages to human ages and calculate the average age of the dogs in their study. 
+Your tasks: 
+Create a function 'calcAverageHumanAge', which accepts an arrays of dog's 
+ages ('ages'), and does the following things in order: 
+1.  Calculate the dog age in human years using the following formula: if the dog is 
+<= 2 years old, humanAge = 2 * dogAge. If the dog is > 2 years old, 
+humanAge = 16 + dogAge * 4 
+2.  Exclude all dogs that are less than 18 human years old (which is the same as 
+keeping dogs that are at least 18 years old) 
+3.  Calculate the average human age of all adult dogs (you should already know 
+from other challenges how we calculate averages 嵑) 
+4.  Run the function for both test datasets 
+Test data: 
+§  Data 1: [5, 2, 4, 1, 15, 8, 3] 
+§  Data 2: [16, 6, 10, 5, 6, 1, 4] 
+*/
+
+const data1 = [5, 2, 4, 1, 15, 8, 3];
+const data2 = [16, 6, 10, 5, 6, 1, 4];
+
+//My way
+
+const calcAverageHumanAge = function (dogs) {
+  const humanAge = dogs.map(dog => (dog <= 2 ? 2 * dog : 16 + dog * 4));
+  const humanAgeExc = humanAge.filter(dog => dog >= 18);
+  const humanAgeAvg =
+    humanAgeExc.reduce((sum, cur) => sum + cur, 0) / humanAgeExc.length;
+
+  console.log(humanAge);
+  console.log(humanAgeExc);
+  console.log(humanAgeAvg);
+  return humanAgeAvg;
+};
+calcAverageHumanAge(data1);
+calcAverageHumanAge(data2);
+
+//Jonas way
+/*
+const calcAverageHumanAge = function (ages) {
+  const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
+  const adults = humanAges.filter(age => age >= 18);
+  console.log(humanAges);
+  console.log(adults);
+  // const average = adults.reduce((acc, age) => acc + age, 0) / adults.length;
+  const average = adults.reduce(
+    (acc, age, i, arr) => acc + age / arr.length,
+    0
+  );
+
+  return average;
+};
+const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+const avg2 = calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+console.log(avg1);
+console.log(avg2);
+*/
+/*
+const eurToUsd = 1.1;
+
+// const movementsUsd = account1.movements.map(function (mov) {
+//   return mov * eurToUsd;
+// });
+const movementsUsd = account1.movements.map(mov => mov * eurToUsd);
+
+console.log(account1.movements);
+console.log(movementsUsd);
+
+const movementsUsdFor = [];
+for (const mov of account1.movements) movementsUsdFor.push(mov * eurToUsd);
+console.log(movementsUsdFor);
+
+const movementsDescription = account1.movements.map(
+  (mov, i, arr) =>
+    `Movement ${i + 1}: You ${mov > 0 ? `deposited` : `withdrew`}  ${Math.abs(
+      mov
+    )}`
+);
+console.log(movementsDescription);
+*/
+//Filter Method
+/*
+const deposits = account1.movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(account1.movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of account1.movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+const withdrawals = account1.movements.filter(mov => mov < 0);
+console.log(withdrawals);
+*/
+//Reduce Method
+/*
+console.log(account1.movements);
+//accumulator -> Snowball
+// const balance = account1.movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`Iteration ${i}:${acc}`);
+//   return acc + cur;
+// }, 0);
+// console.log(balance);
+
+const balance = account1.movements.reduce((acc, cur, i, arr) => acc + cur, 0);
+console.log(balance);
+
+let balance2 = 0;
+for (const mov of account1.movements) balance2 += mov;
+console.log(balance2);
+
+//Maximum value
+const max = account1.movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, account1.movements[0]);
+
+console.log(max);
+*/
