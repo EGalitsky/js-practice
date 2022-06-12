@@ -143,7 +143,7 @@ console.log(sorted);
 Например, давайте добавим умножение *,
 деление / и возведение в степень **:
 */
-
+/*
 function Calculator() {
   this.methods = {
     '+': (a, b) => a + b,
@@ -174,3 +174,144 @@ powerCalc.addMethod('**', (a, b) => a ** b);
 
 let result = powerCalc.calculate('2 ** 3');
 console.log(result);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Трансформировать в массив имён
+У вас есть массив объектов user, и в каждом из них есть user.name. Напишите код, который преобразует их в массив имён.
+*/
+/*
+let vasya = { name: 'Вася', age: 25 };
+let petya = { name: 'Петя', age: 30 };
+let masha = { name: 'Маша', age: 28 };
+
+let users = [vasya, petya, masha];
+
+let names = users.map(item => item.name);
+
+console.log(names); // Вася, Петя, Маша
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Трансформировать в объекты
+У вас есть массив объектов user, и у каждого из объектов есть name, surname и id.
+Напишите код, который создаст ещё один массив объектов с параметрами id и fullName, где fullName – состоит из name и surname.
+*/
+/*
+let vasya = { name: 'Вася', surname: 'Пупкин', id: 1 };
+let petya = { name: 'Петя', surname: 'Иванов', id: 2 };
+let masha = { name: 'Маша', surname: 'Петрова', id: 3 };
+
+let users = [vasya, petya, masha];
+
+let usersMapped = users.map(item => ({
+  fullName: `${item.name} ${item.surname}`,
+  id: `${item.id}`,
+}));
+
+console.log(usersMapped);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Отсортировать пользователей по возрасту
+Напишите функцию sortByAge(users),
+которая принимает массив объектов со свойством age и сортирует их по нему.
+*/
+/*
+let vasya = { name: 'Вася', age: 25 };
+let petya = { name: 'Петя', age: 30 };
+let masha = { name: 'Маша', age: 28 };
+
+let arr = [vasya, petya, masha];
+
+function sortByAge(arr) {
+  arr.sort((a, b) => (a.age > b.age ? 1 : -1));
+}
+sortByAge(arr);
+console.log(arr);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+
+Перемешайте массив
+Напишите функцию shuffle(array),
+которая перемешивает (переупорядочивает случайным образом) элементы массива.
+
+Многократные прогоны через shuffle могут привести
+к разным последовательностям элементов.
+*/
+/*
+// Мой вариант
+let arr = [1, 2, 3];
+
+function shuffle(arr) {
+  return arr.sort(() => (Math.random() > 0.5 ? 1 : -1));
+}
+
+// Тасование Фишера — Йетса
+
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Получить средний возраст
+важность: 4
+Напишите функцию getAverageAge(users),
+которая принимает массив объектов со свойством age
+и возвращает средний возраст.
+*/
+/*
+let vasya = { name: 'Вася', age: 25 };
+let petya = { name: 'Петя', age: 30 };
+let masha = { name: 'Маша', age: 29 };
+
+let arr = [vasya, petya, masha];
+
+function getAverageAge(arr) {
+  return arr.reduce((sum, item) => (sum += item.age), 0) / arr.length;
+}
+
+console.log(getAverageAge(arr)); // (25 + 30 + 29) / 3 = 28
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Оставить уникальные элементы массива
+Пусть arr – массив строк.
+
+Напишите функцию unique(arr),
+которая возвращает массив, содержащий только уникальные элементы arr.
+*/
+function unique(arr) {
+  let newArr = [];
+  for (let a of arr) {
+    if (!newArr.includes(a)) {
+      newArr.push(a);
+    }
+  }
+  return newArr;
+}
+
+let strings = [
+  'кришна',
+  'кришна',
+  'харе',
+  'харе',
+  'харе',
+  'харе',
+  'кришна',
+  'кришна',
+  ':-O',
+];
+
+console.log(unique(strings));
