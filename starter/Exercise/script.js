@@ -292,6 +292,7 @@ console.log(getAverageAge(arr)); // (25 + 30 + 29) / 3 = 28
 Напишите функцию unique(arr),
 которая возвращает массив, содержащий только уникальные элементы arr.
 */
+/*
 function unique(arr) {
   let newArr = [];
   for (let a of arr) {
@@ -315,3 +316,211 @@ let strings = [
 ];
 
 console.log(unique(strings));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Фильтрация уникальных элементов массива
+
+Допустим, у нас есть массив arr.
+
+Создайте функцию unique(arr),
+которая вернёт массив уникальных,
+не повторяющихся значений массива arr.
+*/
+/*
+function unique(arr) {
+  return Array.from(new Set(arr));
+}
+
+let values = [
+  'Hare',
+  'Krishna',
+  'Hare',
+  'Krishna',
+  'Krishna',
+  'Krishna',
+  'Hare',
+  'Hare',
+  ':-O',
+];
+
+console.log(unique(values)); // Hare,Krishna,:-O
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Отфильтруйте анаграммы
+Анаграммы – это слова, у которых те же буквы в том же количестве,
+но они располагаются в другом порядке.
+
+Напишите функцию aclean(arr), которая возвращает массив слов, очищенный от анаграмм.
+*/
+/*
+let arr = ['nap', 'teachers', 'cheaters', 'PAN', 'ear', 'era', 'hectares'];
+
+function aclean(arr) {
+  let map = new Map();
+  for (let a of arr) {
+    let sort = a.toLowerCase().split('').sort().join();
+    map.set(sort, a);
+  }
+
+  return Array.from(map.values());
+}
+
+console.log(aclean(arr));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+
+Перебираемые ключи
+Мы хотели бы получить массив ключей map.keys() в переменную и далее работать с ними,
+например, применить метод .push.
+
+Но это не выходит:
+
+let map = new Map();
+
+map.set("name", "John");
+
+let keys = map.keys();
+
+// Error: keys.push is not a function
+// Ошибка: keys.push -- это не функция
+keys.push("more");
+Почему? Что нужно поправить в коде, чтобы вызов keys.push сработал?
+*/
+/*
+let map = new Map();
+
+map.set('name', 'John');
+
+let keys = Array.from(map.keys());
+// Error: keys.push is not a function
+// Ошибка: keys.push -- это не функция
+keys.push('more');
+console.log(keys);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Хранение отметок "не прочитано"
+Есть массив сообщений:
+
+let messages = [
+  {text: "Hello", from: "John"},
+  {text: "How goes?", from: "John"},
+  {text: "See you soon", from: "Alice"}
+];
+У вас есть к ним доступ, но управление этим массивом происходит где-то ещё.
+Добавляются новые сообщения и удаляются старые,
+и вы не знаете в какой момент это можетпроизойти.
+
+Имея такую вводную информацию, решите,
+какую структуру данных вы могли бы использовать для ответа на вопрос
+«было ли сообщение прочитано?». Структура должна быть подходящей,
+чтобы можно было однозначно сказать, было ли прочитано это сообщение для каждого
+объекта сообщения.
+
+P.S. Когда сообщение удаляется из массива messages,
+оно должно также исчезать из структуры данных.
+
+P.P.S. Нам не следует модифицировать сами объекты сообщений,
+добавлять туда свойства. Если сообщения принадлежат какому-то другому коду,
+то это может привести к плохим последствиям.
+*/
+/*
+let messages = [
+  { text: 'Hello', from: 'John' },
+  { text: 'How goes?', from: 'John' },
+  { text: 'See you soon', from: 'Alice' },
+];
+
+let readedText = new WeakSet();
+
+readedText.add(messages[0]);
+readedText.add(messages[1]);
+readedText.add(messages[2]);
+
+
+console.log(readedText);
+// messages.pop();
+// messages.pop();
+// console.log(readedText);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Хранение времени прочтения
+
+Есть массив сообщений такой же, как и в предыдущем задании.
+
+Теперь вопрос стоит так: какую структуру данных вы бы предложили использовать
+для хранения информации о том, когда сообщение было прочитано?
+
+В предыдущем задании нам нужно было сохранить только факт прочтения «да или нет».
+Теперь же нам нужно сохранить дату, и она должна исчезнуть из памяти при удалении
+«сборщиком мусора» сообщения.
+*/
+/*
+let messages = [
+  { text: 'Hello', from: 'John' },
+  { text: 'How goes?', from: 'John' },
+  { text: 'See you soon', from: 'Alice' },
+];
+
+let readDate = new WeakMap();
+
+readDate.set(messages[0], new Date());
+readDate.set(messages[1], new Date());
+readDate.set(messages[2], new Date());
+console.log(readDate);
+// messages.pop();
+// messages.pop();
+// console.log(readDate);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сумма свойств объекта
+Есть объект salaries с произвольным количеством свойств, содержащих заработные платы.
+
+Напишите функцию sumSalaries(salaries),
+которая возвращает сумму всех зарплат с помощью метода Object.values и цикла for..of.
+
+Если объект salaries пуст, то результат должен быть 0.
+*/
+/*
+let salaries = {
+  John: 100,
+  Pete: 300,
+  Mary: 250,
+};
+
+function sumSalaries(obj) {
+  return Object.values(obj).reduce((sum, item) => sum + item, 0);
+}
+
+console.log(sumSalaries(salaries)); // 650
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Подсчёт количества свойств объекта
+Напишите функцию count(obj), которая возвращает количество свойств объекта:
+P.S. Игнорируйте символьные свойства, подсчитывайте только «обычные».
+*/
+/*
+let user = {
+  name: 'John',
+  age: 30,
+};
+
+function count(obj) {
+  return Object.keys(obj).length;
+}
+
+console.log(count(user)); // 2
+*/
