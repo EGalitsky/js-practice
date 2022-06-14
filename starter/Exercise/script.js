@@ -524,3 +524,157 @@ function count(obj) {
 
 console.log(count(user)); // 2
 */
+
+///////////////////////////////////////////////////////////
+/*
+Деструктурирующее присваивание
+У нас есть объект
+
+Напишите деструктурирующее присваивание, которое:
+
+свойство name присвоит в переменную name.
+свойство years присвоит в переменную age.
+свойство isAdmin присвоит в переменную isAdmin (false, если нет такого свойства)
+*/
+/*
+let user = {
+  name: 'John',
+  years: 30,
+};
+
+let { name, years: age, isAdmin = false } = user;
+
+console.log(name, age, isAdmin);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Максимальная зарплата
+У нас есть объект salaries с зарплатами
+
+Создайте функцию topSalary(salaries),
+которая возвращает имя самого высокооплачиваемого сотрудника.
+
+Если объект salaries пустой, то нужно вернуть null.
+Если несколько высокооплачиваемых сотрудников, можно вернуть любого из них.
+P.S. Используйте Object.entries и деструктурирование, чтобы перебрать пары ключ/значение.
+*/
+/*
+let salaries = {
+  John: 100,
+  Pete: 300,
+  Mary: 250,
+};
+
+function topSalary(sals) {
+  let maxSal = 0;
+  let maxSalName;
+  for (let [name, sal] of Object.entries(sals)) {
+    if (maxSal < sal) {
+      maxSal = sal;
+      maxSalName = name;
+    }
+  }
+  return maxSalName;
+}
+
+console.log(topSalary(salaries));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Создайте дату
+Создайте объект Date для даты: 20 февраля 2012 года, 3 часа 12 минут.
+Временная зона – местная.
+*/
+/*
+let date = new Date(2012, 1, 20, 3, 12);
+console.log(date);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Покажите день недели
+Напишите функцию getWeekDay(date),
+показывающую день недели в коротком формате: «ПН», «ВТ», «СР», «ЧТ», «ПТ», «СБ», «ВС».
+*/
+/*
+// function getWeekDay(date) {
+//   let day = date.getDay();
+//   switch (day) {
+//     case 0:
+//       return 'Sun';
+//     case 1:
+//       return 'Mon';
+//     case 2:
+//       return 'Tue';
+//     case 3:
+//       return 'Wed';
+//     case 4:
+//       return 'Thu';
+//     case 5:
+//       return 'Fri';
+//     case 6:
+//       return 'Sat';
+//   }
+// }
+
+// More simple way
+function getWeekDay(date) {
+  let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  return days[date.getDay()];
+}
+
+let date = new Date(2012, 0, 3);
+
+console.log(getWeekDay(date));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+День недели в европейской нумерации
+В Европейских странах неделя начинается с понедельника (день номер 1),
+затем идёт вторник (номер 2) и так до воскресенья (номер 7).
+Напишите функцию getLocalDay(date),
+которая возвращает «европейский» день недели для даты date.
+*/
+/*
+let date = new Date(2012, 0, 8);
+
+function getLocalDay(date) {
+  let day = date.getDay();
+  if (day === 0) return 7;
+  return day;
+}
+
+console.log(getLocalDay(date));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Какой день месяца был много дней назад?
+Создайте функцию getDateAgo(date, days),
+возвращающую число, которое было days дней назад от даты date.
+
+К примеру, если сегодня двадцатое число,
+то getDateAgo(new Date(), 1) вернёт девятнадцатое и
+getDateAgo(new Date(), 2) – восемнадцатое.
+
+Функция должна надёжно работать при значении days=365 и больших значениях
+P.S. Функция не должна изменять переданный ей объект date.
+*/
+let date = new Date(2015, 0, 2);
+
+function getDateAgo(date, days) {
+  let day = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate() - days
+  );
+  return day.getDate();
+}
+
+console.log(getDateAgo(date, 1)); // 1, (1 Jan 2015)
+console.log(getDateAgo(date, 2)); // 31, (31 Dec 2014)
+console.log(getDateAgo(date, 365)); // 2, (2 Jan 2014)
