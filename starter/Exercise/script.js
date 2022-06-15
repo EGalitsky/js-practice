@@ -664,6 +664,7 @@ getDateAgo(new Date(), 2) – восемнадцатое.
 Функция должна надёжно работать при значении days=365 и больших значениях
 P.S. Функция не должна изменять переданный ей объект date.
 */
+/*
 let date = new Date(2015, 0, 2);
 
 function getDateAgo(date, days) {
@@ -678,3 +679,173 @@ function getDateAgo(date, days) {
 console.log(getDateAgo(date, 1)); // 1, (1 Jan 2015)
 console.log(getDateAgo(date, 2)); // 31, (31 Dec 2014)
 console.log(getDateAgo(date, 365)); // 2, (2 Jan 2014)
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Последнее число месяца?
+Напишите функцию getLastDayOfMonth(year, month), 
+возвращающую последнее число месяца. Иногда это 30, 31 или даже февральские 28/29.
+
+Параметры:
+year – год из четырёх цифр, например, 2012.
+month – месяц от 0 до 11.
+К примеру, getLastDayOfMonth(2012, 1) = 29 (високосный год, февраль).
+*/
+/*
+function getLastDayOfMonth(year, month) {
+  const date = new Date(year, month + 1, 0);
+  return date.getDate();
+}
+
+console.log(getLastDayOfMonth(2012, 1));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сколько сегодня прошло секунд?
+Напишите функцию getSecondsToday(),
+возвращающую количество секунд с начала сегодняшнего дня.
+
+Например, если сейчас 10:00, и не было перехода на зимнее/летнее время, то:
+
+getSecondsToday() == 36000 // (3600 * 10)
+
+Функция должна работать в любой день,
+т.е. в ней не должно быть конкретного значения сегодняшней даты.
+*/
+/*
+function getSecondsToday() {
+  const date = new Date();
+  const startDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate()
+  );
+  console.log(date, startDate);
+  return (date - startDate) / 1000;
+}
+console.log(getSecondsToday());
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сколько секунд осталось до завтра?
+Создайте функцию getSecondsToTomorrow(),
+возвращающую количество секунд до завтрашней даты.
+
+Например, если сейчас 23:00, то:
+getSecondsToTomorrow() == 3600
+P.S. Функция должна работать в любой день,
+т.е. в ней не должно быть конкретного значения сегодняшней даты.
+*/
+/*
+function getSecondsToTomorrow() {
+  const date = new Date();
+  const tomorrow = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate() + 1
+  );
+  return (tomorrow - date) / 1000;
+}
+
+console.log(getSecondsToTomorrow());
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Форматирование относительной даты
+Напишите функцию formatDate(date), форматирующую date по следующему принципу:
+
+Если спустя date прошло менее 1 секунды, вывести "прямо сейчас".
+В противном случае, если с date прошло меньше 1 минуты, вывести "n сек. назад".
+В противном случае, если меньше часа, вывести "m мин. назад".
+В противном случае, полная дата в формате "DD.MM.YY HH:mm".
+
+*/
+/*
+function getTwoSigh(arr) {
+  return arr.map(item => item.slice(-2));
+}
+
+function formatDate(date) {
+  const time = new Date() - date;
+  if (time < 1000) console.log('Right now');
+  else if (time > 1000 && time < 60 * 1000)
+    console.log(`${time / 1000} seconds ago`);
+  else if (time > 60 * 1000 && time < 60 * 60 * 1000)
+    console.log(`${time / (60 * 1000)} minutes ago`);
+  else {
+    console.log(
+      `${getTwoSigh(['0' + date.getDate()])}.${getTwoSigh([
+        '0' + (date.getMonth() + 1),
+      ])}.${date.getFullYear()} ${getTwoSigh([
+        '0' + date.getHours(),
+      ])}:${getTwoSigh(['0' + date.getMinutes()])}`
+    );
+  }
+}
+
+formatDate(new Date(new Date() - 1)); // "прямо сейчас"
+
+formatDate(new Date(new Date() - 30 * 1000)); // "30 сек. назад"
+
+formatDate(new Date(new Date() - 5 * 60 * 1000)); // "5 мин. назад"
+
+// вчерашняя дата вроде 31.12.2016, 20:00
+formatDate(new Date(new Date() - 86400 * 1000));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Преобразуйте объект в JSON, а затем обратно в обычный объект
+Преобразуйте user в JSON, затем прочитайте этот JSON в другую переменную.
+*/
+/*
+let user = {
+  name: 'Василий Иванович',
+  age: 35,
+};
+console.log(user);
+let jsonUser = JSON.stringify(user);
+console.log(jsonUser);
+let jsonReadUser = JSON.parse(jsonUser);
+console.log(jsonReadUser);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Исключить обратные ссылки
+
+В простых случаях циклических ссылок мы можем исключить свойство,
+из-за которого они возникают, из сериализации по его имени.
+
+Но иногда мы не можем использовать имя,
+так как могут быть и другие, нужные, свойства с этим именем во вложенных объектах.
+Поэтому можно проверять свойство по значению.
+
+Напишите функцию replacer для JSON-преобразования,
+которая удалит свойства, ссылающиеся на meetup:
+*/
+
+let room = {
+  number: 23,
+};
+
+let meetup = {
+  title: 'Совещание',
+  occupiedBy: [{ name: 'Иванов' }, { name: 'Петров' }],
+  place: room,
+};
+
+// цикличные ссылки
+room.occupiedBy = meetup;
+meetup.self = meetup;
+console.log(meetup);
+
+console.log(
+  JSON.stringify(meetup, function replacer(key, value) {
+    return key !== '' && value === meetup ? undefined : value;
+  })
+);
