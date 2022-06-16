@@ -828,7 +828,7 @@ console.log(jsonReadUser);
 Напишите функцию replacer для JSON-преобразования,
 которая удалит свойства, ссылающиеся на meetup:
 */
-
+/*
 let room = {
   number: 23,
 };
@@ -849,3 +849,180 @@ console.log(
     return key !== '' && value === meetup ? undefined : value;
   })
 );
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Mrs. Shear is a grade 3 teacher. She wants to ensure that students  in her class learn 
+in groups of 3. Write a function called grouping()  which takes a number  as a 
+parameter. Within the function use a try-catch block to throw an error if the 
+number  passed into the function grouping() is not divisible  by 3. If it is divisible 
+by 3 then return  the number  of groupings  that are formed. The finally block 
+must let Mrs. Shear know that the function is over. 
+*/
+/*
+function grouping(number) {
+  try {
+    if (number % 3 === 0)
+      console.log(`A number of grouping will be ${number / 3}`);
+    else if (number % 3 !== 0)
+      throw new Error(`Number of students is not divisible by 3`);
+  } catch (e) {
+    console.log(e.name + e.message);
+  } finally {
+    console.log('Function is over');
+  }
+}
+
+grouping(9);
+grouping(8);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вычислить сумму чисел до данного
+Напишите функцию sumTo(n), которая вычисляет сумму чисел 1 + 2 + ... + n.
+
+Сделайте три варианта решения:
+С использованием цикла.
+Через рекурсию, т.к. sumTo(n) = n + sumTo(n-1) for n > 1.
+С использованием формулы арифметической прогрессии.
+*/
+/*
+function sumToCycle(n) {
+  let sum = 0;
+  for (n; n > 0; n--) {
+    sum += n;
+  }
+  return sum;
+}
+console.log(sumToCycle(100));
+
+function sumToRecurcion(n) {
+  return n > 1 ? n + sumToRecurcion(n - 1) : n;
+}
+console.log(sumToRecurcion(100));
+
+function sumToProgression(n) {
+  return (n * (n + 1)) / 2;
+}
+console.log(sumToRecurcion(100));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вычислить факториал
+Факториал натурального числа – это число, умноженное на "себя минус один",
+затем на "себя минус два", и так далее до 1. Факториал n обозначается как n!
+*/
+/*
+function factorial(num) {
+  return num > 1 ? num * factorial(num - 1) : num;
+}
+console.log(factorial(5));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Числа Фибоначчи
+Последовательность чисел Фибоначчи определяется формулой Fn = Fn-1 + Fn-2.
+То есть, следующее число получается как сумма двух предыдущих.
+Первые два числа равны 1, затем 2(1+1), затем 3(1+2), 5(2+3)
+и так далее: 1, 1, 2, 3, 5, 8, 13, 21....
+Напишите функцию fib(n) которая возвращает n-е число Фибоначчи.
+*/
+/*
+function fib(n) {
+  // Slow
+  // return n <= 1 ? n : fib(n - 1) + fib(n - 2);
+  // Fast
+  let a = 1;
+  let b = 1;
+  for (let i = 3; i <= n; i++) {
+    let c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}
+console.log(fib(7));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вывод односвязного списка
+Допустим, у нас есть односвязный список
+Напишите функцию printList(list), которая выводит элементы списка по одному.
+Сделайте два варианта решения: используя цикл и через рекурсию.
+*/
+/*
+let list = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null,
+      },
+    },
+  },
+};
+
+function printListCycle(obj) {
+  while (obj) {
+    console.log(obj.value);
+    obj = obj.next;
+  }
+}
+
+printListCycle(list);
+
+function printListRec(obj) {
+  console.log(obj.value);
+  if (obj.next) {
+    printListRec(obj.next);
+  }
+}
+
+printListRec(list);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вывод односвязного списка в обратном порядке
+Выведите односвязный список из предыдущего задания
+Сделайте два решения: с использованием цикла и через рекурсию.
+*/
+let list = {
+  value: 1,
+  next: {
+    value: 2,
+    next: {
+      value: 3,
+      next: {
+        value: 4,
+        next: null,
+      },
+    },
+  },
+};
+
+function printListCycle(obj) {
+  let arr = [];
+  while (obj) {
+    arr.push(obj.value);
+    obj = obj.next;
+  }
+  arr.reverse().forEach(a => console.log(a));
+}
+printListCycle(list);
+
+function printListRec(obj) {
+  if (obj.next) {
+    printListRec(obj.next);
+  }
+  console.log(obj.value);
+}
+printListRec(list);
