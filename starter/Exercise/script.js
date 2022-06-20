@@ -995,6 +995,7 @@ printListRec(list);
 Выведите односвязный список из предыдущего задания
 Сделайте два решения: с использованием цикла и через рекурсию.
 */
+/*
 let list = {
   value: 1,
   next: {
@@ -1026,3 +1027,232 @@ function printListRec(obj) {
   console.log(obj.value);
 }
 printListRec(list);
+*/
+/*
+function slow(x) {
+  // здесь могут быть ресурсоёмкие вычисления
+  alert(`Called with ${x}`);
+  return x;
+}
+
+function cachingDecorator(func) {
+  let cache = new Map();
+
+  return function (x) {
+    if (cache.has(x)) {
+      // если кеш содержит такой x,
+      return cache.get(x); // читаем из него результат
+    }
+
+    let result = func(x); // иначе, вызываем функцию
+
+    cache.set(x, result); // и кешируем (запоминаем) результат
+    return result;
+  };
+}
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сумма с помощью замыканий
+Напишите функцию sum, которая работает таким образом: sum(a)(b) = a+b.
+Да, именно таким образом, используя двойные круглые скобки (не опечатка).
+*/
+/*
+function sum(a) {
+  return function (b) {
+    return a + b;
+  };
+}
+
+console.log(sum(1)(2));
+console.log(sum(5)(-1));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Фильтрация с помощью функции
+У нас есть встроенный метод arr.filter(f) для массивов. Он фильтрует все элементы с помощью функции f. Если она возвращает true, то элемент добавится в возвращаемый массив.
+
+Сделайте набор «готовых к употреблению» фильтров:
+
+inBetween(a, b) – между a и b (включительно).
+inArray([...]) – находится в данном массиве.
+Они должны использоваться таким образом:
+
+arr.filter(inBetween(3,6)) – выбирает только значения между 3 и 6 (включительно).
+arr.filter(inArray([1,2,3])) – выбирает только элементы, совпадающие с одним из элементов массива
+*/
+/*
+let arr = [1, 2, 3, 4, 5, 6, 7];
+
+function inBetween(a, b) {
+  return function (x) {
+    return x >= a && x <= b;
+  };
+}
+
+function inArray(arr) {
+  return function (x) {
+    return arr.includes(x);
+  };
+}
+
+console.log(arr.filter(inBetween(3, 6)));
+
+console.log(arr.filter(inArray([1, 2, 10])));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сортировать по полю
+У нас есть массив объектов, который нужно отсортировать:
+
+Обычный способ был бы таким:
+// по имени (Ann, John, Pete)
+users.sort((a, b) => a.name > b.name ? 1 : -1);
+// по возрасту (Pete, Ann, John)
+users.sort((a, b) => a.age > b.age ? 1 : -1);
+
+Можем ли мы сделать его короче, скажем, вот таким?
+users.sort(byField('name'));
+users.sort(byField('age'));
+
+То есть, чтобы вместо функции, мы просто писали byField(fieldName).
+Напишите функцию byField, которая может быть использована для этого.
+*/
+/*
+let users = [
+  { name: 'John', age: 20, surname: 'Johnson' },
+  { name: 'Pete', age: 18, surname: 'Peterson' },
+  { name: 'Ann', age: 19, surname: 'Hathaway' },
+];
+
+function byField(key) {
+  return (a, b) => (a[key] > b[key] ? 1 : -1);
+}
+
+users.sort(byField('name'));
+console.log(users);
+// users.sort(byField('age'));
+// console.log(users);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Установка и уменьшение значения счётчика
+Измените код makeCounter() так, чтобы счётчик мог увеличивать и устанавливать значение:
+
+counter() должен возвращать следующее значение (как и раньше).
+counter.set(value) должен устанавливать счётчику значение value.
+counter.decrease() должен уменьшать значение счётчика на 1.
+Посмотрите код из песочницы с полным примером использования.
+
+*/
+/*
+function makeCounter() {
+  let count = 0;
+
+  function counter() {
+    return count++;
+  }
+  counter.set = value => (count = value);
+  counter.decrease = () => count--;
+
+  return counter;
+}
+
+let counter = makeCounter();
+
+console.log(counter());
+console.log(counter());
+
+console.log(counter.set(10));
+
+counter.decrease();
+console.log(counter());
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Сумма с произвольным количеством скобок
+Напишите функцию sum, которая бы работала следующим образом:
+*/
+/*
+function sum(a) {
+  let currentSum = a;
+  function func(b) {
+    currentSum += b;
+    return func;
+  }
+
+  func.toString = function () {
+    return currentSum;
+  };
+
+  return func;
+}
+
+console.log(sum(1)(2) == 3);
+console.log(sum(1)(2)(3) == 6);
+console.log(sum(5)(-1)(2) == 6);
+console.log(sum(6)(-1)(-2)(-3) == 0);
+console.log(sum(0)(1)(2)(3)(4)(5) == 15);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вывод каждую секунду
+Напишите функцию printNumbers(from, to), которая выводит число каждую секунду,
+начиная от from и заканчивая to.
+
+Сделайте два варианта решения.
+Используя setInterval.
+Используя рекурсивный 
+*/
+/*
+function printNumbersInter(from, to) {
+  let timerId = setInterval(function () {
+    console.log(from);
+    if (from === to) {
+      clearInterval(timerId);
+    }
+    from++;
+  }, 1000);
+}
+
+printNumbersInter(1, 5);
+
+function printNumbersTimeout(from, to) {
+  setTimeout(function timeout() {
+    console.log(from);
+    if (from < to) {
+      setTimeout(timeout, 1000);
+    }
+    from++;
+  }, 1000);
+}
+
+printNumbersTimeout(6, 10);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Декоратор-шпион
+Создайте декоратор spy(func), который должен возвращать обёртку,
+которая сохраняет все вызовы функции в своём свойстве calls.
+Каждый вызов должен сохраняться как массив аргументов.
+*/
+
+function work(a, b) {
+  alert(a + b); // произвольная функция или метод
+}
+
+work = spy(work);
+
+work(1, 2); // 3
+work(4, 5); // 9
+
+for (let args of work.calls) {
+  alert('call:' + args.join()); // "call:1,2", "call:4,5"
+}
