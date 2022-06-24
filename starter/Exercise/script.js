@@ -1282,7 +1282,7 @@ f.defer(1000);
 Добавьте всем функциям в прототип метод defer(ms),
 который возвращает обёртку, откладывающую вызов функции на ms миллисекунд.
 */
-
+/*
 Function.prototype.defer = function (ms) {
   return (a, b) => setTimeout(this, ms, a, b);
 };
@@ -1292,3 +1292,279 @@ function f(a, b) {
 }
 
 f.defer(1000)(1, 2); // выведет 3 через 1 секунду.
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Класс Clock написан в функциональном стиле.
+Перепишите его, используя современный синтаксис классов.
+
+function Clock({ template }) {
+  let timer;
+  function render() {
+    let date = new Date();
+    let hours = date.getHours();
+    if (hours < 10) hours = '0' + hours;
+    let mins = date.getMinutes();
+    if (mins < 10) mins = '0' + mins;
+    let secs = date.getSeconds();
+    if (secs < 10) secs = '0' + secs;
+    let output = template
+      .replace('h', hours)
+      .replace('m', mins)
+      .replace('s', secs);
+    console.log(output);
+  }
+  this.stop = function() {
+    clearInterval(timer);
+  };
+  this.start = function() {
+    render();
+    timer = setInterval(render, 1000);
+  };
+}
+let clock = new Clock({template: 'h:m:s'});
+clock.start();
+*/
+/*
+class Clock {
+  constructor({ template }) {
+    this.template = template;
+  }
+  render() {
+    let date = new Date();
+
+    let hours = date.getHours();
+    if (hours < 10) hours = '0' + hours;
+
+    let mins = date.getMinutes();
+    if (mins < 10) mins = '0' + mins;
+
+    let secs = date.getSeconds();
+    if (secs < 10) secs = '0' + secs;
+
+    let output = this.template
+      .replace('h', hours)
+      .replace('m', mins)
+      .replace('s', secs);
+
+    console.log(output);
+  }
+
+  stop = function () {
+    clearInterval(this.timer);
+  };
+
+  start = function () {
+    this.render();
+    this.timer = setInterval(this.render.bind(this), 1000);
+  };
+}
+
+let clock = new Clock({ template: 'h:m:s' });
+console.log(clock);
+clock.start();
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Встроенная функция setTimeout использует колбэк-функции. 
+Создайте альтернативу, использующую промисы.
+
+Функция delay(ms) должна возвращать промис,
+который перейдёт в состояние «выполнен» через ms миллисекунд,
+так чтобы мы могли добавить к нему .then:
+*/
+/*
+function delay(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), ms);
+  });
+}
+
+delay(3000).then(() => console.log('выполнилось через 3 секунды'));
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Перепишите функцию showCircle, написанную в задании Анимация круга с помощью колбэка
+таким образом, чтобы она возвращала промис, вместо того чтобы принимать в аргументы
+функцию-callback.
+*/
+/*
+function go() {
+  showCircle(150, 150, 100, div => {
+    div.classList.add('message-ball');
+    div.append('Привет, мир!');
+  });
+}
+
+function showCircle(cx, cy, radius, callback) {
+  let div = document.createElement('div');
+  div.style.width = 0;
+  div.style.height = 0;
+  div.style.left = cx + 'px';
+  div.style.top = cy + 'px';
+  div.className = 'circle';
+  document.body.append(div);
+
+  return new Promise(resolve => {
+    setTimeout(() => {
+      div.style.width = radius * 2 + 'px';
+      div.style.height = radius * 2 + 'px';
+
+      div.addEventListener('transitionend', function handler() {
+        div.removeEventListener('transitionend', handler);
+        resolve(div);
+      });
+    }, 0);
+  });
+}
+
+showCircle(150, 150, 100).then(div => {
+  div.classList.add('message-ball');
+  div.append('Hello, world!');
+});
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Перепишите, используя async/await
+Перепишите один из примеров раздела Цепочка промисов,
+используя async/await вместо .then/catch
+
+function loadJson(url) {
+  return fetch(url)
+    .then(response => {
+      if (response.status == 200) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+}
+
+loadJson('no-such-user.json') // (3)
+  .catch(alert); // Error: 404
+*/
+/*
+async function loadJson(url) {
+  const response = await fetch(url);
+
+  if (response.status == 200) {
+    return await response.json();
+  } else {
+    throw new Error(response.status);
+  }
+}
+
+loadJson('no-such-user.json').catch(console.log());
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Перепишите, используя async/await
+Ниже пример из раздела Цепочка промисов, перепишите его,
+используя async/await вместо .then/catch.
+В функции demoGithubUser замените рекурсию на цикл: используя async/await,
+сделать это будет просто.
+
+class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+function loadJson(url) {
+  return fetch(url)
+    .then(response => {
+      if (response.status == 200) {
+        return response.json();
+      } else {
+        throw new HttpError(response);
+      }
+    })
+}
+
+// Запрашивать логин, пока github не вернёт существующего пользователя.
+function demoGithubUser() {
+  let name = prompt("Введите логин?", "iliakan");
+
+  return loadJson(`https://api.github.com/users/${name}`)
+    .then(user => {
+      alert(`Полное имя: ${user.name}.`);
+      return user;
+    })
+    .catch(err => {
+      if (err instanceof HttpError && err.response.status == 404) {
+        alert("Такого пользователя не существует, пожалуйста, повторите ввод.");
+        return demoGithubUser();
+      } else {
+        throw err;
+      }
+    });
+}
+
+demoGithubUser();
+*/
+/*
+class HttpError extends Error {
+  constructor(response) {
+    super(`${response.status} for ${response.url}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+async function loadJson(url) {
+  let response = await fetch(url);
+  if (response.status == 200) {
+    return response.json();
+  } else {
+    throw new HttpError(response);
+  }
+}
+
+// Запрашивать логин, пока github не вернёт существующего пользователя.
+async function demoGithubUser() {
+  let user;
+  while (true) {
+    let name = prompt('Введите логин?', 'iliakan');
+
+    try {
+      user = await loadJson(`https://api.github.com/users/${name}`);
+      break;
+    } catch (err) {
+      if (err instanceof HttpError && err.response.status == 404) {
+        alert('Такого пользователя не существует, пожалуйста, повторите ввод.');
+        return demoGithubUser();
+      } else {
+        throw err;
+      }
+    }
+  }
+  alert(`Полное имя: ${user.name}.`);
+  return user;
+}
+
+demoGithubUser();
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Вызовите async–функцию из "обычной"
+Есть «обычная» функция. Как можно внутри неё получить результат выполнения async–функции?
+*/
+/*
+async function wait() {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  return 10;
+}
+
+function f() {
+  wait().then(a => console.log(a));
+}
+*/
