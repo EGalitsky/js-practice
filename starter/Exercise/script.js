@@ -1568,3 +1568,52 @@ function f() {
   wait().then(a => console.log(a));
 }
 */
+
+///////////////////////////////////////////////////////////
+/*
+Наследование от SyntaxError
+Создайте класс FormatError, который наследует от встроенного класса SyntaxError.
+Класс должен поддерживать свойства message, name и stack.
+*/
+/*
+class FormatError extends SyntaxError {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
+
+let err = new FormatError('ошибка форматирования');
+
+console.log(err.message);
+console.log(err.name);
+console.log(err.stack);
+
+console.log(err instanceof FormatError);
+console.log(err instanceof SyntaxError);
+*/
+
+///////////////////////////////////////////////////////////
+/*
+Дочерние элементы в DOM
+Для страницы:
+
+<html>
+<body>
+  <div>Пользователи:</div>
+  <ul>
+    <li>Джон</li>
+    <li>Пит</li>
+  </ul>
+</body>
+</html>
+Напишите код, как получить…
+
+элемент <div>?
+<ul>?
+второй <li> (с именем Пит)?
+*/
+
+document.body.firstElementChild;
+document.body.lastElementChild;
+document.body.lastElementChild.lastElementChild;
